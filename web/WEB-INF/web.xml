@@ -21,6 +21,13 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!--把js排除在dispatcherServlet外-->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+
 
     <!--配置中文字符格式，过滤器Filter-->
     <filter>

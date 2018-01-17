@@ -30,12 +30,12 @@
             </td>
         </tr>
         <tr>
-            <td>手机号:</td>
+            <td>验 证 码:</td>
             <td>
-                <input id="phone" type="text" placeholder="请输入手机号" value="">
+                <input id="validateCode" type="text" placeholder="请输入验证码" value="">
             </td>
             <td>
-                <button onclick="sendMsgCode()">获取验证码</button>
+                <img id="validateCodeImg" title="点击更换" onclick="changeCode()" src="http://localhost:8080/user/get_validate_code"/>
             </td>
         </tr>
         <tr>
@@ -56,37 +56,9 @@
         alert("登录");
     }
 
-    function sendMsgCode() {
-        var phone = $("#phone").val();
-        if(!(/^1[34578]\d{9}$/.test(phone))){
-            alert("手机号输入有误");
-            return false;
-        }
-            var params = {
-            phone:phone
-        };
-        var url = 'http://localhost:8080/user/get_msg_code';
-        jQuery.ajax({
-            type:'POST',
-            contentType: 'application/x-www-form-urlencoded',
-            url: url,
-            data : params,
-            dataType: 'json',
-            success: function (data) {
-                var status = data.status;
-                var msg = data.msg;
-                if (status==0){
-                    alert("发送成功");
-                }else if(status==1){
-                    alert(msg);
-                }
-                setTimeout(2000);
-            },
-            error: function(data){
-                alert("发送失败");
-                setTimeout(2000);
-            }
-        });
+    function changeCode() {
+        var validateCodeImg =document.getElementById("validateCodeImg");
+        validateCodeImg.setAttribute('src', 'http://localhost:8080/user/get_validate_code.' + Math.random())
     }
 
     function toRegister() {

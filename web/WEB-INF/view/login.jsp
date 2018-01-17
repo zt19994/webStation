@@ -30,6 +30,15 @@
             </td>
         </tr>
         <tr>
+            <td>手机号:</td>
+            <td>
+                <input id="phone" type="text" placeholder="请输入手机号" value="">
+            </td>
+            <td>
+                <button onclick="sendMsgCode()">获取验证码</button>
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" align="center">
                 <button onclick="login()">登录</button>
             </td>
@@ -45,6 +54,39 @@
 <script type="text/javascript">
     function login() {
         alert("登录");
+    }
+
+    function sendMsgCode() {
+        var phone = $("#phone").val();
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            alert("手机号输入有误");
+            return false;
+        }
+            var params = {
+            phone:phone
+        };
+        var url = 'http://localhost:8080/user/get_msg_code';
+        jQuery.ajax({
+            type:'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            url: url,
+            data : params,
+            dataType: 'json',
+            success: function (data) {
+                var status = data.status;
+                var msg = data.msg;
+                if (status==0){
+                    alert("发送成功");
+                }else if(status==1){
+                    alert(msg);
+                }
+                setTimeout(2000);
+            },
+            error: function(data){
+                alert("发送失败");
+                setTimeout(2000);
+            }
+        });
     }
 
     function toRegister() {

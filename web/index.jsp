@@ -17,7 +17,7 @@
   </div>
   <div align="center">
       <button onclick="toRegister()">注册页面</button>
-      <button onclick="toLogin()">注册页面</button>
+      <button onclick="toLogin()">登录页面</button>
   </div>
   </body>
   <script type="text/javascript">

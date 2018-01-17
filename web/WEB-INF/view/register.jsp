@@ -53,7 +53,7 @@
         <tr>
             <td>email:</td>
             <td>
-                <input id="email" type="text" placeholder="请输入email" value=""/>
+                <input id="email" type="email" placeholder="请输入email" value=""/>
             </td>
         </tr>
         <tr>
@@ -76,6 +76,42 @@
 
     function register() {
         alert("注册");
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        var ConfirmPassword = $("#ConfirmPassword").val();
+        var phone = $("#phone").val();
+        var verifyCode = $("#verifyCode").val();
+        var email = $("#email").val();
+
+        if(password==''||ConfirmPassword==''||password!=ConfirmPassword) {
+            alert("密码不能为空");
+            return false;
+        }
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            alert("手机号填写错误");
+            return false;
+        }
+        var params = {
+            userName:userName,
+            password:password,
+            phone:phone,
+            verifyCode:verifyCode,
+            email:email
+        };
+        var url = '';
+        jQuery.ajax({
+            type:'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            url: url,
+            data : params,
+            dataType: 'json',
+            success: function (data) {
+                alert("发送成功");
+            },
+            error: function(data){
+                alert("发送失败");
+            }
+        });
     }
 
     function toLogin() {

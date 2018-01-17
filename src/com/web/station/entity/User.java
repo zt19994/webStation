@@ -4,7 +4,7 @@ public class User {
     private Integer id;
     private String userName;
     private String password;
-    private Integer phone;
+    private String phone;
     private String email;
     private Integer status;
     private String type;
@@ -35,11 +35,11 @@ public class User {
         this.password = password;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

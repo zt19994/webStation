@@ -53,7 +53,36 @@
 </body>
 <script type="text/javascript">
     function login() {
-        alert("登录");
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        var validateCode = $("#validateCode").val();
+        if (userName==''|| password==''){
+            alert("用户名或密码不能为空");
+            return false;
+        }
+        if (validateCode==''){
+            alert("验证码不能为空");
+            return false;
+        }
+        var params = {
+            userName:userName,
+            password:password,
+            validateCode:validateCode
+        };
+        var url = 'http://localhost:8080/user/login';
+        jQuery.ajax({
+            type:'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            url: url,
+            data : params,
+            dataType: 'json',
+            success: function (data) {
+                alert("发送成功");
+            },
+            error: function(data){
+                alert("发送失败");
+            }
+        });
     }
 
     function changeCode() {

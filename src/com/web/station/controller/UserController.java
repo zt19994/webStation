@@ -6,6 +6,7 @@ import com.web.station.entity.User;
 import com.web.station.service.IUserService;
 import com.web.station.util.RandomUtil;
 import com.web.station.util.ValidateCodeUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,38 @@ public class UserController {
      */
     @RequestMapping("register")
     @ResponseBody
-    public ServerResponse register(User user){
+    public ServerResponse register(HttpSession session, User user, String validateCode){
+        String code = (String) session.getAttribute(Const.REGISTER_PHONE_VALIDATE_CODE);
+        //判断验证码不为空
+        if (StringUtils.isBlank(validateCode)){
+            return ServerResponse.createByErrorMessage("验证码为空");
+        }
+        if (!validateCode.equals(code)){
+            ////验证码不相等
+            return ServerResponse.createByErrorMessage("验证码错误");
+        }
+        return userService.register(user);
+    }
 
+    /**
+     * 登录
+     * @param session
+     * @param userName
+     * @param password
+     * @param validateCode
+     * @return
+     */
+    @RequestMapping("login")
+    @ResponseBody
+    public ServerResponse login(HttpSession session, String userName, String password, String validateCode){
+        String code = (String) session.getAttribute(Const.LOGIN_VALIDATE_CODE);
+        if (!code.equals(validateCode)){
+            //验证码不相等
+            return ServerResponse.createByErrorMessage("验证码错误");
+        }
+        //todo 调用service方法，返回用户是否登录成功
+        userService.login(userName, password);
+        //todo 登录成功，将用户信息放入session
         return null;
     }
 
@@ -72,12 +103,17 @@ public class UserController {
         String msgCode = RandomUtil.getMsgCode();
         logger.info("msgCode: " + msgCode);
         //2.把验证码保存到session
-        session.setAttribute(Const.PHONE_MSG_CODE, msgCode);
+        session.setAttribute(Const.REGISTER_PHONE_VALIDATE_CODE, msgCode);
         //3.调用业务方法发送验证码
         return userService.sendMsgCode(msgCode, phone);
     }
 
 
+    /**
+     * 获取图片验证码
+     * @param response
+     * @param session
+     */
     @RequestMapping("get_validate_code")
     public void getValidateCodeImg(HttpServletResponse response, HttpSession session){
         //1.设置响应格式
@@ -86,8 +122,8 @@ public class UserController {
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-        //3.生成验证码
-        ValidateCodeUtil validateCode = new ValidateCodeUtil(100,25,6,5);
+        //3.生成验证码，调用工具类
+        ValidateCodeUtil validateCode = new ValidateCodeUtil(100,25,4,5);
         //4.把验证码放入session
         session.setAttribute(Const.LOGIN_VALIDATE_CODE, validateCode.getCode());
         logger.info("validateCode: "  + validateCode.getCode());

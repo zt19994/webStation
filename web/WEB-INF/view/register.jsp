@@ -47,13 +47,13 @@
         <tr>
             <td>验 证 码:</td>
             <td>
-                <input id="verifyCode" type="text" placeholder="请输入验证码" width="20" value=""/>
+                <input id="validateCode" type="text" placeholder="请输入验证码" width="20" value=""/>
             </td>
         </tr>
         <tr>
-            <td>email:</td>
+            <td> &nbsp;email :</td>
             <td>
-                <input id="email" type="email" placeholder="请输入email" value=""/>
+                <input id="email" type="text" placeholder="请输入email" value=""/>
             </td>
         </tr>
         <tr>
@@ -71,7 +71,6 @@
 </body>
 <script type="text/javascript">
     function sendCode() {
-        alert("发送验证码");
         var phone = $("#phone").val();
         if(!(/^1[34578]\d{9}$/.test(phone))){
             alert("手机号输入有误");
@@ -105,30 +104,37 @@
     }
 
     function register() {
-        alert("注册");
         var userName = $("#userName").val();
         var password = $("#password").val();
         var ConfirmPassword = $("#ConfirmPassword").val();
         var phone = $("#phone").val();
-        var verifyCode = $("#verifyCode").val();
+        var validateCode = $("#validateCode").val();
         var email = $("#email").val();
 
-        if(password==''||ConfirmPassword==''||password!=ConfirmPassword) {
-            alert("密码不能为空");
+        if(userName==''||password==''||ConfirmPassword=='') {
+            alert("用户名或密码不能为空");
+            return false;
+        }
+        if (password!=ConfirmPassword){
+            alert("两次密码不相等");
             return false;
         }
         if(!(/^1[34578]\d{9}$/.test(phone))){
             alert("手机号填写错误");
             return false;
         }
+        if (validateCode==''){
+            alert("验证码不能为空");
+            return false;
+        }
         var params = {
             userName:userName,
             password:password,
             phone:phone,
-            verifyCode:verifyCode,
-            email:email
+            email:email,
+            validateCode:validateCode
         };
-        var url = '';
+        var url = 'http://localhost:8080/user/register';
         jQuery.ajax({
             type:'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -136,7 +142,14 @@
             data : params,
             dataType: 'json',
             success: function (data) {
-                alert("发送成功");
+                var status = data.status;
+                var msg = data.msg;
+                if (status != 0) {
+                    alert(msg + status);
+                } else {
+                    alert(msg);
+                }
+
             },
             error: function(data){
                 alert("发送失败");

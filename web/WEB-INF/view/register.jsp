@@ -72,31 +72,31 @@
 <script type="text/javascript">
     function sendCode() {
         var phone = $("#phone").val();
-        if(!(/^1[34578]\d{9}$/.test(phone))){
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
             alert("手机号输入有误");
             return false;
         }
         var params = {
-            phone:phone
+            phone: phone
         };
         var url = 'http://localhost:8080/user/get_msg_code';
         jQuery.ajax({
-            type:'POST',
+            type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
             url: url,
-            data : params,
+            data: params,
             dataType: 'json',
             success: function (data) {
                 var status = data.status;
                 var msg = data.msg;
-                if (status==0){
+                if (status == 0) {
                     alert("发送成功");
-                }else if(status==1){
+                } else if (status == 1) {
                     alert(msg);
                 }
                 setTimeout(2000);
             },
-            error: function(data){
+            error: function (data) {
                 alert("发送失败");
                 setTimeout(2000);
             }
@@ -111,35 +111,35 @@
         var validateCode = $("#validateCode").val();
         var email = $("#email").val();
 
-        if(userName==''||password==''||ConfirmPassword=='') {
+        if (userName == '' || password == '' || ConfirmPassword == '') {
             alert("用户名或密码不能为空");
             return false;
         }
-        if (password!=ConfirmPassword){
+        if (password != ConfirmPassword) {
             alert("两次密码不相等");
             return false;
         }
-        if(!(/^1[34578]\d{9}$/.test(phone))){
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
             alert("手机号填写错误");
             return false;
         }
-        if (validateCode==''){
+        if (validateCode == '') {
             alert("验证码不能为空");
             return false;
         }
         var params = {
-            userName:userName,
-            password:password,
-            phone:phone,
-            email:email,
-            validateCode:validateCode
+            userName: userName,
+            password: password,
+            phone: phone,
+            email: email,
+            validateCode: validateCode
         };
         var url = 'http://localhost:8080/user/register';
         jQuery.ajax({
-            type:'POST',
+            type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
             url: url,
-            data : params,
+            data: params,
             dataType: 'json',
             success: function (data) {
                 var status = data.status;
@@ -151,14 +151,14 @@
                 }
 
             },
-            error: function(data){
+            error: function (data) {
                 alert("发送失败");
             }
         });
     }
 
     function toLogin() {
-        window.location.href='http://localhost:8080/user/to_login';
+        window.location.href = 'http://localhost:8080/user/to_login';
     }
 </script>
 </html>

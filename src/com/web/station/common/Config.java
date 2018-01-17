@@ -34,4 +34,14 @@ public class Config {
      * 模板的id号
      */
     public static final String TEMPLATE_ID = "106266266";
+
+    /**
+     * 发送邮件配置
+     */
+    public static final String TITLE = "注册认证";
+
+    /**
+     * 邮箱主体
+     */
+    public static final String BASE_BODY = "点击连接完成注册:  http://127.0.0.1:8080/register?validateCode=";
 }

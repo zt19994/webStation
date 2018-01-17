@@ -1,17 +1,21 @@
 package com.web.station.service.impl;
 
+import com.web.station.common.Config;
 import com.web.station.common.Const;
 import com.web.station.common.ServerResponse;
-import com.web.station.controller.UserController;
 import com.web.station.dao.IUserDao;
 import com.web.station.entity.User;
 import com.web.station.service.IUserService;
 import com.web.station.util.MD5Util;
+import com.web.station.util.MailUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import java.security.GeneralSecurityException;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -36,13 +40,13 @@ public class UserServiceImpl implements IUserService {
     public ServerResponse register(User user) {
         //1.校验用户名是否已经注册
         ServerResponse response = checkValid(user.getUserName(), Const.USERNAME);
-        if (!response.isSuccess()){
+        if (!response.isSuccess()) {
             //false,不成功，即已经注册，直接返回response
             return response;
         }
         //2.校验邮箱是否已经注册
         response = checkValid(user.getEmail(), Const.EMAIL);
-        if (!response.isSuccess()){
+        if (!response.isSuccess()) {
             //false,不成功，即已经注册，直接返回response
             return response;
         }
@@ -54,11 +58,26 @@ public class UserServiceImpl implements IUserService {
         user.setStatus(0);
 
         //5.进行注册
-        /*int resultCount = userDao.register(user);
-        if (resultCount == 0){
+        int resultCount = userDao.register(user);
+        if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("注册失败");
-        }*/
-        //todo 发送邮件激活
+        }
+        //设置邮件传递参数,加密,用邮箱加密
+        String emailValidateCode = null;
+        try {
+            emailValidateCode = MD5Util.encode(user.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("emailValidateCode: " + emailValidateCode);
+
+        //发送认证邮件
+        try {
+            MailUtil.send(Config.TITLE, Config.BASE_BODY + emailValidateCode +
+                    "&email=" + user.getEmail() + "&user=" + user.getUserName(), user.getEmail());
+        } catch (GeneralSecurityException | MessagingException e) {
+            e.printStackTrace();
+        }
 
         return ServerResponse.createBySuccessMessage("注册成功");
     }
@@ -70,6 +89,7 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 校验成功表示没有注册，返回的status是0,对应的isSuccess为true
+     *
      * @param str
      * @param type
      * @return
@@ -77,22 +97,22 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ServerResponse checkValid(String str, String type) {
         //1.首先判断str不为空
-        if (StringUtils.isNotBlank(type)){
-            if (Const.USERNAME.equals(type)){
+        if (StringUtils.isNotBlank(type)) {
+            if (Const.USERNAME.equals(type)) {
                 //1.校验注册时用户名是否存在
                 int resultCount = userDao.checkUsername(str);
                 if (resultCount > 0) {
                     return ServerResponse.createByErrorMessage("用户名已存在");
                 }
             }
-            if (Const.EMAIL.equals(type)){
+            if (Const.EMAIL.equals(type)) {
                 //2.检查邮箱是否存在
                 int resultCount = userDao.checkEmail(str);
                 if (resultCount > 0) {
                     return ServerResponse.createByErrorMessage("email已存在");
                 }
             }
-        }else {
+        } else {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         return ServerResponse.createBySuccessMessage("校验成功");

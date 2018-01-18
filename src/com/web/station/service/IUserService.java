@@ -38,4 +38,10 @@ public interface IUserService {
      */
     ServerResponse checkValid(String str, String type);
 
+    /**
+     * 激活账号
+     * @param validateCode
+     * @return
+     */
+    ServerResponse activate(String validateCode);
 }

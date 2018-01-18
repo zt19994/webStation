@@ -153,7 +153,16 @@ public class UserController {
 
 
     @RequestMapping("activate")
-    public void activate(String validateCode){
-        //todo 邮箱激活
+    public ModelAndView activate(String validateCode){
+        ServerResponse resultCount = userService.activate(validateCode);
+        ModelAndView modelAndView = new ModelAndView();
+        if (!resultCount.isSuccess()){
+            //激活失败，返回注册页面
+            modelAndView.setViewName("register");
+            return modelAndView;
+        }
+        //到注册页面
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 }

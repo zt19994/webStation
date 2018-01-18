@@ -23,4 +23,18 @@ public interface IUserDao {
      * @return
      */
     int checkEmail(String str);
+
+    /**
+     * 查询验证码,返回用户
+     * @param validateCode
+     * @return
+     */
+    User selectValidateCode(String validateCode);
+
+    /**
+     * 激活操作
+     * @param user
+     * @return
+     */
+    int activate(User user);
 }

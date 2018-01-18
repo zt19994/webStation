@@ -22,4 +22,16 @@
         FROM USER
         WHERE email = #{email}
     </select>
+
+    <select id="selectValidateCode" parameterType="string" resultType="User">
+        SELECT id,username, password, phone , email, validate_code validateCode, status, create_time createTime, update_time updateTime
+        FROM USER
+        WHERE validate_code = #{validateCode}
+    </select>
+
+    <insert id="activate" parameterType="User">
+    UPDATE user SET
+    validate_code = #{validateCode}, status = #{status}, update_time = now()
+    WHERE id = #{id}
+    </insert>
 </mapper>

@@ -124,4 +124,24 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccessMessage("校验成功");
     }
 
+    @Override
+    public ServerResponse activate(String validateCode) {
+        //1.判断validateCode是否为空
+        if (StringUtils.isBlank(validateCode)){
+            return ServerResponse.createByErrorMessage("验证码为空");
+        }
+        //2.在数据库查询是否有验证码
+        User user = userDao.selectValidateCode(validateCode);
+        if (user==null){
+            return ServerResponse.createByErrorMessage("激活失败，验证码错误");
+        }
+        //3.验证码正确，进行激活
+        user.setStatus(1);
+        user.setValidateCode(null);
+        int resultCount = userDao.activate(user);
+        if (resultCount==0){
+            return ServerResponse.createByErrorMessage("激活失败");
+        }
+        return ServerResponse.createBySuccessMessage("激活成功");
+    }
 }

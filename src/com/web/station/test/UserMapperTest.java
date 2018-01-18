@@ -19,7 +19,7 @@ public class UserMapperTest {
     * 测试添加用户
     */
     @Test
-    public void test(){
+    public void test1(){
         User user = new User();
         user.setUserName("peter");
         user.setPassword("123");
@@ -28,5 +28,32 @@ public class UserMapperTest {
         user.setEmail("199999999@163.com");
         int resultCount = userDao.register(user);
         System.out.println(resultCount);
+    }
+
+    /**
+    * 测试查询用户
+    */
+    @Test
+    public void testCheckUserName(){
+        int resultCount = userDao.checkUsername("admin");
+        System.out.println(resultCount);
+    }
+
+    /**
+    * 测试查询邮箱
+    */
+    @Test
+    public void testCheckEmail(){
+        int resultCount = userDao.checkEmail("zt191610942@163.com");
+        System.out.println(resultCount);
+    }
+
+    /**
+    * 测试查询验证码
+    */
+    @Test
+    public void testSelectValidateCode(){
+        User u = userDao.selectValidateCode("b33295fd66136923f71598f70aa5468c");
+        System.out.println(u);
     }
 }

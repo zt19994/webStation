@@ -90,7 +90,23 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse login(String userName, String password) {
-        return null;
+        //1.校验用户是否存在
+        ServerResponse response = checkValid(userName, Const.USERNAME);
+        if (response.isSuccess()) {
+            //成功，即未注册，直接返回response
+            return response;
+        }
+        //2.校验密码
+        //加密密码
+        String MD5Password = MD5Util.encode(password);
+
+        User user = userDao.checkLogin(userName, MD5Password);
+        if (user==null){
+            return ServerResponse.createByErrorMessage("密码错误");
+        }
+        //去掉密码
+        user.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess("登录成功", user);
     }
 
     /**

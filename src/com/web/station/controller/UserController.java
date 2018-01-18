@@ -101,10 +101,13 @@ public class UserController {
             //验证码不相等
             return ServerResponse.createByErrorMessage("验证码错误");
         }
-        //todo 调用service方法，返回用户是否登录成功
-        userService.login(userName, password);
-        //todo 登录成功，将用户信息放入session
-        return null;
+        // 调用service方法，返回用户是否登录成功
+        ServerResponse response = userService.login(userName, password);
+        if (response.isSuccess()){
+            //登录成功，将用户信息放入session
+            session.setAttribute(Const.CURRENT_USER, response.getData());
+        }
+        return response;
     }
 
 

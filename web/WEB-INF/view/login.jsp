@@ -77,7 +77,13 @@
             data : params,
             dataType: 'json',
             success: function (data) {
-                alert("发送成功");
+                var msg = data.msg;
+                var status = data.status;
+                if (status!=0){
+                    alert(msg+status);
+                }else {
+                    window.location.href='http://localhost:8080/ticket/to_ticket';
+                }
             },
             error: function(data){
                 alert("发送失败");

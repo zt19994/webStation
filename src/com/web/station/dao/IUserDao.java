@@ -1,6 +1,7 @@
 package com.web.station.dao;
 
 import com.web.station.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface IUserDao {
 
@@ -37,4 +38,12 @@ public interface IUserDao {
      * @return
      */
     int activate(User user);
+
+    /**
+     * 检查登录
+     * @param userName
+     * @param password
+     * @return
+     */
+    User checkLogin(@Param("userName") String userName, @Param("password") String password);
 }

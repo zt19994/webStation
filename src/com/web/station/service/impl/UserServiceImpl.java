@@ -8,6 +8,7 @@ import com.web.station.entity.User;
 import com.web.station.service.IUserService;
 import com.web.station.util.MD5Util;
 import com.web.station.util.MailUtil;
+import com.web.station.util.SendSMSUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import java.security.GeneralSecurityException;
 
 @Service
 public class UserServiceImpl implements IUserService {
-    public static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private IUserDao userDao;
@@ -50,36 +51,41 @@ public class UserServiceImpl implements IUserService {
             //false,不成功，即已经注册，直接返回response
             return response;
         }
-        //3.MD5加密，调用工具类
-        String encode = MD5Util.encode(user.getUserName());
+        //3.密码加密，MD5加密，调用工具类
+        String encode = MD5Util.encode(user.getPassword());
         logger.info("encodePassword: " + encode);
         user.setPassword(encode);
         //4.设置状态: 0 未激活  1 激活
         user.setStatus(0);
 
-        //5.进行注册
+        //5.设置邮件传递参数,加密,用MD5加密,为user封装ValidateCode属性
+        String emailValidateCode = null;
+        try {
+            emailValidateCode = MD5Util.encode(user.getUserName()+user.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        user.setValidateCode(emailValidateCode);
+        //6.进行注册
         int resultCount = userDao.register(user);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("注册失败");
         }
-        //设置邮件传递参数,加密,用邮箱加密
-        String emailValidateCode = null;
-        try {
-            emailValidateCode = MD5Util.encode(user.getEmail());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         logger.info("emailValidateCode: " + emailValidateCode);
 
-        //发送认证邮件
+        //7.发送认证邮件
+        String context = "<p>欢迎您注册，请点击连接完成激活: </p><a href='" +
+                Config.BASE_BODY + emailValidateCode + "'>" +
+                Config.BASE_BODY + emailValidateCode + "</a>";
+
         try {
-            MailUtil.send(Config.TITLE, Config.BASE_BODY + emailValidateCode +
-                    "&email=" + user.getEmail() + "&user=" + user.getUserName(), user.getEmail());
+            MailUtil.send(Config.TITLE, context, user.getEmail());
         } catch (GeneralSecurityException | MessagingException e) {
             e.printStackTrace();
         }
 
-        return ServerResponse.createBySuccessMessage("注册成功");
+        return ServerResponse.createBySuccessMessage("注册成功,请激活账号");
     }
 
     @Override
@@ -117,4 +123,5 @@ public class UserServiceImpl implements IUserService {
         }
         return ServerResponse.createBySuccessMessage("校验成功");
     }
+
 }

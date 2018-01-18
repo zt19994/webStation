@@ -43,5 +43,5 @@ public class Config {
     /**
      * 邮箱主体
      */
-    public static final String BASE_BODY = "点击连接完成注册:  http://127.0.0.1:8080/register?validateCode=";
+    public static final String BASE_BODY = "http://127.0.0.1:8080/user/activate?validateCode=";
 }

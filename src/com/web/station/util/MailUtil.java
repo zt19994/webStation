@@ -10,30 +10,31 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.security.GeneralSecurityException;
+import java.util.Date;
 import java.util.Properties;
 
 
 public class MailUtil {
     //设置服务器主机名
-    public final static String HOST = "smtp.qq.com";
+    private final static String HOST = "smtp.qq.com";
     //邮件协议信息
-    public final static String PROTOCOL = "smtp";
+    private final static String PROTOCOL = "smtp";
     //发送人邮件地址
-    public final static String SEND_ADDRESS = "191610942@qq.com";
+    private final static String SEND_ADDRESS = "191610942@qq.com";
     //授权码
-    public final static String AUTHORIZATION_CODE = "geraspfawyeqcaei";
+    private final static String AUTHORIZATION_CODE = "geraspfawyeqcaei";
 
 
     /**
      * 发送邮件
      *
      * @param title          邮件标题
-     * @param body           邮件内容
+     * @param context           邮件内容
      * @param receiveAddress 收件人地址
      * @throws GeneralSecurityException
      * @throws MessagingException
      */
-    public static void send(String title, String body, String receiveAddress) throws GeneralSecurityException, MessagingException {
+    public static void send(String title, String context, String receiveAddress) throws GeneralSecurityException, MessagingException {
         //可以加载一个配置文件
         Properties props = new Properties();
         //开启debug调试
@@ -56,7 +57,8 @@ public class MailUtil {
         MimeMessage msg = new MimeMessage(session);
         //配置消息对象
         msg.setSubject(title);
-        msg.setText(body);
+        msg.setContent(context, "text/html; charset=utf-8");
+        msg.setSentDate(new Date());
         //设置发件人地址
         msg.setFrom(new InternetAddress(SEND_ADDRESS));
 

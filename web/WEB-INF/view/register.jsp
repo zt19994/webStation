@@ -47,7 +47,7 @@
         <tr>
             <td>验 证 码:</td>
             <td>
-                <input id="validateCode" type="text" placeholder="请输入验证码" width="20" value=""/>
+                <input id="phoneValidateCode" type="text" placeholder="请输入验证码" width="20" value=""/>
             </td>
         </tr>
         <tr>
@@ -108,7 +108,7 @@
         var password = $("#password").val();
         var ConfirmPassword = $("#ConfirmPassword").val();
         var phone = $("#phone").val();
-        var validateCode = $("#validateCode").val();
+        var phoneValidateCode = $("#phoneValidateCode").val();
         var email = $("#email").val();
 
         if (userName == '' || password == '' || ConfirmPassword == '') {
@@ -123,7 +123,7 @@
             alert("手机号填写错误");
             return false;
         }
-        if (validateCode == '') {
+        if (phoneValidateCode == '') {
             alert("验证码不能为空");
             return false;
         }
@@ -132,8 +132,10 @@
             password: password,
             phone: phone,
             email: email,
-            validateCode: validateCode
+            phoneValidateCode: phoneValidateCode
         };
+        var mail = email.split("@")[1];
+
         var url = 'http://localhost:8080/user/register';
         jQuery.ajax({
             type: 'POST',
@@ -147,7 +149,7 @@
                 if (status != 0) {
                     alert(msg + status);
                 } else {
-                    alert(msg);
+                    window.location.href='http://localhost:8080/user/to_activate?mail=' + mail;
                 }
 
             },

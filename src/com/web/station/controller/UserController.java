@@ -5,6 +5,7 @@ import com.web.station.common.ServerResponse;
 import com.web.station.entity.User;
 import com.web.station.service.IUserService;
 import com.web.station.util.RandomUtil;
+import com.web.station.util.ToEmailUtil;
 import com.web.station.util.ValidateCodeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/user/")
 public class UserController {
-    public static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private IUserService userService;
@@ -50,19 +51,34 @@ public class UserController {
     }
 
     /**
+     * 跳转到激活页面
+     * @return
+     */
+    @RequestMapping("to_activate")
+    public ModelAndView toActivate(String mail){
+        logger.info("mail: " + mail);
+        ModelAndView modelAndView = new ModelAndView();
+        //调用方法比较mail
+        String emailUrl = ToEmailUtil.toEmail(mail);
+        modelAndView.addObject(Const.EMAIL_URL,emailUrl);
+        modelAndView.setViewName("activate");
+        return modelAndView;
+    }
+
+    /**
      * 注册
      * @param user
      * @return
      */
     @RequestMapping("register")
     @ResponseBody
-    public ServerResponse register(HttpSession session, User user, String validateCode){
+    public ServerResponse register(HttpSession session, User user, String phoneValidateCode){
         String code = (String) session.getAttribute(Const.REGISTER_PHONE_VALIDATE_CODE);
         //判断验证码不为空
-        if (StringUtils.isBlank(validateCode)){
+        if (StringUtils.isBlank(phoneValidateCode)){
             return ServerResponse.createByErrorMessage("验证码为空");
         }
-        if (!validateCode.equals(code)){
+        if (!phoneValidateCode.equals(code)){
             ////验证码不相等
             return ServerResponse.createByErrorMessage("验证码错误");
         }
@@ -114,7 +130,7 @@ public class UserController {
      * @param response
      * @param session
      */
-    @RequestMapping("get_validate_code")
+    @RequestMapping("get_img_code")
     public void getValidateCodeImg(HttpServletResponse response, HttpSession session){
         //1.设置响应格式
         response.setContentType("image/jpeg");
@@ -133,5 +149,11 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @RequestMapping("activate")
+    public void activate(String validateCode){
+        //todo 邮箱激活
     }
 }

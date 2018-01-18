@@ -6,6 +6,7 @@ public class User {
     private String password;
     private String phone;
     private String email;
+    private String validateCode;
     private Integer status;
     private String type;
     private String createTime;
@@ -51,6 +52,14 @@ public class User {
         this.email = email;
     }
 
+    public String getValidateCode() {
+        return validateCode;
+    }
+
+    public void setValidateCode(String validateCode) {
+        this.validateCode = validateCode;
+    }
+
     public Integer getStatus() {
         return status;
     }
@@ -90,8 +99,9 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", validateCode='" + validateCode + '\'' +
                 ", status=" + status +
                 ", type='" + type + '\'' +
                 ", createTime='" + createTime + '\'' +

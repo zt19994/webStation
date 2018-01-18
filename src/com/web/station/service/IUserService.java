@@ -37,4 +37,5 @@ public interface IUserService {
      * @return
      */
     ServerResponse checkValid(String str, String type);
+
 }

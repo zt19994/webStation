@@ -35,7 +35,7 @@
                 <input id="validateCode" type="text" placeholder="请输入验证码" value="">
             </td>
             <td>
-                <img id="validateCodeImg" title="点击更换" onclick="changeCode()" src="http://localhost:8080/user/get_validate_code"/>
+                <img id="validateCodeImg" title="点击更换" onclick="changeCode()" src="http://localhost:8080/user/get_img_code"/>
             </td>
         </tr>
         <tr>
@@ -87,7 +87,7 @@
 
     function changeCode() {
         var validateCodeImg =document.getElementById("validateCodeImg");
-        validateCodeImg.setAttribute('src', 'http://localhost:8080/user/get_validate_code.' + Math.random())
+        validateCodeImg.setAttribute('src', 'http://localhost:8080/user/get_img_code.' + Math.random())
     }
 
     function toRegister() {

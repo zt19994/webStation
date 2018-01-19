@@ -16,7 +16,36 @@
     <h1 align="center">车票列表</h1>
 </div>
 <div align="center">
+    <span>欢迎您,${currentUser.userName}</span>
+    <button onclick="logout()">注销</button>
+</div>
+<div align="center">
     车票详情
 </div>
 </body>
+<script type="text/javascript">
+    function logout() {
+        var params = {
+        };
+        var url = 'http://localhost:8080/user/logout';
+        jQuery.ajax({
+            type:'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            url: url,
+            data : params,
+            dataType: 'json',
+            success: function (data) {
+                var status = data.status;
+                if (status!=0){
+                    alert(status);
+                }else {
+                    window.location.href='http://localhost:8080/user/to_login';
+                }
+            },
+            error: function(data){
+                alert("发送失败");
+            }
+        });
+    }
+</script>
 </html>

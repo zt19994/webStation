@@ -110,6 +110,19 @@ public class UserController {
         return response;
     }
 
+    /**
+     * 注销操作
+     * @param session
+     * @return
+     */
+    @RequestMapping("logout")
+    @ResponseBody
+    public ServerResponse logout(HttpSession session){
+        //删除用户session信息
+        session.removeAttribute(Const.CURRENT_USER);
+        return ServerResponse.createBySuccess();
+    }
+
 
     /**
      * 获取短信验证码
@@ -155,6 +168,11 @@ public class UserController {
     }
 
 
+    /**
+     * 激活账号
+     * @param validateCode
+     * @return
+     */
     @RequestMapping("activate")
     public ModelAndView activate(String validateCode){
         ServerResponse resultCount = userService.activate(validateCode);

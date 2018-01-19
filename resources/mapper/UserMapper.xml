@@ -13,19 +13,19 @@
 
     <select id="checkUsername" resultType="int" parameterType="string">
         SELECT COUNT(1)
-        FROM USER
+        FROM user
         WHERE username = #{username}
     </select>
 
     <select id="checkEmail" resultType="int" parameterType="string">
         SELECT COUNT(1)
-        FROM USER
+        FROM user
         WHERE email = #{email}
     </select>
 
     <select id="selectValidateCode" parameterType="string" resultType="User">
         SELECT id,username, password, phone , email, validate_code validateCode, status, create_time createTime, update_time updateTime
-        FROM USER
+        FROM user
         WHERE validate_code = #{validateCode}
     </select>
 
@@ -37,7 +37,7 @@
 
     <select id="checkLogin" parameterType="map" resultType="User">
         SELECT id, username, password, phone , email, status, create_time createTime, update_time updateTime
-        FROM USER
+        FROM user
         WHERE username = #{userName} AND password = #{password}
     </select>
 </mapper>

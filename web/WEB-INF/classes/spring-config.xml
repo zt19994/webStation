@@ -36,6 +36,20 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
         <property name="typeAliasesPackage" value="com.web.station.entity"/>
         <!--c.扫描mapper中包含sql语句的xml文件(映射文件)-->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+
+        <!-- 分页插件 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+
     </bean>
     
     <!--5.扫描dao(mapper)接口文件-->

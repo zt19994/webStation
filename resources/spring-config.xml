@@ -3,21 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    
-    <!--1.开启注解驱动-->
-    <mvc:annotation-driven/>
-    
-    <!--2.扫描包 service和controller-->
-    <context:annotation-config/>
-    <context:component-scan base-package="com.web.station.controller, com.web.station.service"/>
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
 
     <!--3.配置连接池-->
     <context:property-placeholder location="classpath:db.properties"/>
@@ -56,12 +49,15 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.web.station.dao"/>
     </bean>
-    
-    <!--6.前缀和后缀配置-->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/view/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+
+    <!--csf配置-->
+    <jaxws:server id="inlineImplementor" serviceClass="com.day_28.station.cxfservice.ITicketCXFService" address="/ticket">
+        <jaxws:serviceBean>
+            <bean class="com.day_28.station.cxfservice.ITicketCXFServiceService"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--导入cxf配置-->
+    <import resource="classpath:spring/spring_cxfClient.xml"/>
 
 </beans>

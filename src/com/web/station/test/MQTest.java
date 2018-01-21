@@ -12,7 +12,7 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-activeMq.xml")
+@ContextConfiguration("classpath:spring/spring-activeMq.xml")
 public class MQTest {
     @Autowired
     private ProducerService producerService;

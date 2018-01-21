@@ -51,9 +51,27 @@ public class TicketController {
         return ticketService.getTicketList(pageNum, pageSize);
     }
 
+    /**
+     * 获取车票详情
+     * @param ticketId
+     * @return
+     */
     @RequestMapping("ticket_detail")
     @ResponseBody
     public ServerResponse getTicketDetail(String ticketId){
         return ticketService.getTicketDetail(ticketId);
+    }
+
+    /**
+     * 锁定车票
+     * @param userId
+     * @param ticketId
+     * @param ticketNum
+     * @return
+     */
+    @RequestMapping("lock_ticket")
+    @ResponseBody
+    public ServerResponse lockTicket(String userId, String ticketId, String ticketNum){
+        return ticketService.lockTicket(userId, ticketId, ticketNum);
     }
 }

@@ -33,26 +33,68 @@
     <h2 align="center">用户信息</h2>
     <table align="center" border="1" cellspacing="1" cellpadding="1" width="750">
         <tr>
+            <td align="center">编号</td>
             <td align="center">用户名</td>
             <td align="center">电话号码</td>
             <td align="center">邮箱</td>
             <td align="center">购票数量</td>
         </tr>
         <tr>
+            <td id="userId" align="center">${currentUser.id}</td>
             <td align="center">${currentUser.userName}</td>
             <td align="center">${currentUser.phone}</td>
             <td align="center">${currentUser.email}</td>
             <td align="center">
-                <input id="num" type="text" value="">
+                <input id="ticketNum" type="text" value="1">
             </td>
         </tr>
     </table>
+    <br/>
     <div align="center">
-        <button onclick="">确认支付</button>
+        <button onclick="toPayPage()">确认支付</button>
     </div>
 </div>
 </body>
 <script type="text/javascript">
+    function toPayPage() {
+        var userId = $("#userId").html();
+        var ticketId = $("#ticketId").html();
+        var ticketNum = $("#ticketNum").val();
+        if (ticketNum==''){
+            alert("购买数量为空");
+            return false;
+        }else if (ticketNum<1){
+            alert("购买数量错误");
+            return false;
+        }
+        alert("成功");
+        return true;
+        //进行锁票
+        var params = {
+            userId:userId,
+            ticketId:ticketId,
+            ticketNum:ticketNum
+        };
+        var url = 'http://localhost:8080/ticket/lock_ticket';
+        jQuery.ajax({
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            url: url,
+            data: params,
+            dataType: 'json',
+
+            success: function (data) {
+                alert("成功获取数据");
+
+            },
+            error: function (data) {
+                alert("失败啦");
+            }
+        });
+
+    }
+
+
     function loadData() {
         var ticketId = $("#ticketId").html();
         var params = {

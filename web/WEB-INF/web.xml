@@ -4,6 +4,16 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <!--添加cxf配置文件-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring/spring_cxfClient.xml
+            classpath:spring-config.xml
+        </param-value>
+    </context-param>
+
+
     <!--前端分发器-->
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
@@ -12,8 +22,8 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                classpath:spring-config.xml
-                classpath:spring-activeMq.xml
+                classpath:spring-MVC.xml
+                classpath:spring/spring-activeMq.xml
             </param-value>
         </init-param>
         <!--设置优先级最高级-->

@@ -1,5 +1,6 @@
 package com.web.station.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.web.station.common.ServerResponse;
@@ -45,5 +46,20 @@ public class TicketServiceImpl implements ITicketService {
         String substring = departureTime.substring(0, 19);
         ticket.setDepartureTime(substring);
         return ServerResponse.createBySuccess("查询成功", ticket);
+    }
+
+    @Override
+    public ServerResponse lockTicket(String userId, String ticketId, String ticketNum) {
+        //1.封装json数据
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId",userId);
+        jsonObject.put("ticketId",ticketId);
+        jsonObject.put("ticketNum",ticketNum);
+        String jsonString = jsonObject.toJSONString();
+
+        //2.调用车站发布的锁票接口
+
+
+        return null;
     }
 }

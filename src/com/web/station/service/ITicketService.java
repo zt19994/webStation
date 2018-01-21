@@ -19,4 +19,13 @@ public interface ITicketService {
      * @return
      */
     ServerResponse getTicketDetail(String ticketId);
+
+    /**
+     * 锁定车票
+     * @param userId
+     * @param ticketId
+     * @param ticketNum
+     * @return
+     */
+    ServerResponse lockTicket(String userId, String ticketId, String ticketNum);
 }

@@ -27,6 +27,18 @@ public class TicketController {
         return modelAndView;
     }
 
+    /**
+     * 跳转到购票页面
+     *
+     * @return
+     */
+    @RequestMapping("buy_ticket")
+    public ModelAndView toBuyTicket(String ticketId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("buyTicket");
+        modelAndView.addObject("ticketId", ticketId);
+        return modelAndView;
+    }
 
     /**
      * 获取车票列表数据
@@ -37,5 +49,11 @@ public class TicketController {
     @ResponseBody
     public ServerResponse getTicketList(int pageNum, int pageSize) {
         return ticketService.getTicketList(pageNum, pageSize);
+    }
+
+    @RequestMapping("ticket_detail")
+    @ResponseBody
+    public ServerResponse getTicketDetail(String ticketId){
+        return ticketService.getTicketDetail(ticketId);
     }
 }

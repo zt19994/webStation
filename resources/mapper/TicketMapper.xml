@@ -11,4 +11,11 @@
         ORDER BY id ASC
     </select>
 
+    <select id="selectTicketById" resultType="Ticket">
+        SELECT
+        id, start_station startStation, stop_station stopStation, departure_time departureTime , price, ticket_num ticketNum
+        FROM ticket
+        WHERE id = #{ticketId}
+    </select>
+
 </mapper>

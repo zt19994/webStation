@@ -9,6 +9,7 @@ import com.web.station.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,10 +24,26 @@ public class TicketServiceImpl implements ITicketService {
         //1.startPage,记录一个开始
         PageHelper.startPage(pageNum, pageSize);
         //2.填充自己的sql查询逻辑
+        List<Ticket> lists = new ArrayList<>();
         List<Ticket> ticketList = ticketDao.getTicketList();
+        for (Ticket ticket : ticketList) {
+            String departureTime = ticket.getDepartureTime();
+            String substring = departureTime.substring(0, 19);
+            ticket.setDepartureTime(substring);
+            lists.add(ticket);
+        }
         //3.pageHelper的收尾
-        PageInfo pageResult = new PageInfo(ticketList);
-        pageResult.setList(ticketList);
+        PageInfo pageResult = new PageInfo(lists);
+        pageResult.setList(lists);
         return ServerResponse.createBySuccess(pageResult);
+    }
+
+    @Override
+    public ServerResponse getTicketDetail(String ticketId) {
+        Ticket ticket = ticketDao.selectTicketById(Integer.valueOf(ticketId));
+        String departureTime = ticket.getDepartureTime();
+        String substring = departureTime.substring(0, 19);
+        ticket.setDepartureTime(substring);
+        return ServerResponse.createBySuccess("查询成功", ticket);
     }
 }

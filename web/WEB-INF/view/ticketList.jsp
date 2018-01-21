@@ -185,6 +185,10 @@
         });
     }
 
+    function buyTicket(id) {
+        window.location.href='http://localhost:8080/ticket/buy_ticket?ticketId=' + id;
+    }
+
     loadData(1, 5)
 </script>
 </html>

@@ -11,4 +11,11 @@ public interface ITicketDao {
      * @return
      */
     List<Ticket> getTicketList();
+
+    /**
+     * 通过ticketId查询车票信息
+     * @param ticketId
+     * @return
+     */
+    Ticket selectTicketById(Integer ticketId);
 }

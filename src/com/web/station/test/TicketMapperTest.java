@@ -28,4 +28,13 @@ public class TicketMapperTest {
             System.out.println(ticket);
         }
     }
+
+    /**
+    * 测试通过车票id查询
+    */
+    @Test
+    public void testSelectById(){
+        Ticket ticket = ticketDao.selectTicketById(1);
+        System.out.println(ticket);
+    }
 }

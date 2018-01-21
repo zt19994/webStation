@@ -12,4 +12,11 @@ public interface ITicketService {
      * @return
      */
     ServerResponse<PageInfo> getTicketList(int pageNum, int pageSize);
+
+    /**
+     * 通过ticketId获取车票详情
+     * @param ticketId
+     * @return
+     */
+    ServerResponse getTicketDetail(String ticketId);
 }

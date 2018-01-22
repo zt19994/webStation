@@ -20,7 +20,11 @@ public class MQTest {
     private ConsumerService consumerService;
     @Test
     public void testSend(){
+        producerService.sendMessage("你好世界1","stationQueues");
         producerService.sendMessage("你好世界2","stationQueues");
+        producerService.sendMessage("你好世界3","stationQueues");
+        producerService.sendMessage("你好世界4","stationQueues");
+
         System.out.println("------测试完成-------");
     }
     @Test

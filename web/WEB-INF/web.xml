@@ -4,15 +4,24 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <!--全局变量，spring配置-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring-config.xml
+        </param-value>
+    </context-param>
+
+
     <!--前端分发器-->
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!--扫描spring配置文件-->
+        <!--扫描springMVC配置文件-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                classpath:spring-config.xml
+                classpath:spring-MVC.xml
                 classpath:spring/spring-activeMq.xml
             </param-value>
         </init-param>

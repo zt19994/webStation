@@ -44,7 +44,7 @@ public class TicketServiceImpl implements ITicketService {
             lists.add(ticket);
         }
         //3.pageHelper的收尾
-        PageInfo pageResult = new PageInfo(lists);
+        PageInfo pageResult = new PageInfo(ticketList);
         pageResult.setList(lists);
         return ServerResponse.createBySuccess(pageResult);
     }

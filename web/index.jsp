@@ -22,11 +22,11 @@
   </body>
   <script type="text/javascript">
     function toRegister() {
-        window.location.href='http://localhost:8080/user/to_register';
+        window.location.href='/user/to_register';
     }
 
     function toLogin() {
-        window.location.href='http://localhost:8080/user/to_login';
+        window.location.href='/user/to_login';
     }
   </script>
 </html>

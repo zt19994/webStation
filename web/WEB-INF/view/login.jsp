@@ -35,7 +35,7 @@
                 <input id="validateCode" type="text" placeholder="请输入验证码" value="">
             </td>
             <td>
-                <img id="validateCodeImg" title="点击更换" onclick="changeCode()" src="http://localhost:8080/user/get_img_code"/>
+                <img id="validateCodeImg" title="点击更换" onclick="changeCode()" src="/user/get_img_code"/>
             </td>
         </tr>
         <tr>
@@ -69,7 +69,7 @@
             password:password,
             validateCode:validateCode
         };
-        var url = 'http://localhost:8080/user/login';
+        var url = '/user/login';
         jQuery.ajax({
             type:'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -83,7 +83,7 @@
                     alert(msg+status);
                 }else {
                     //到车票列表
-                    window.location.href='http://localhost:8080/ticket/to_ticket';
+                    window.location.href='/ticket/to_ticket';
                 }
             },
             error: function(data){
@@ -94,11 +94,11 @@
 
     function changeCode() {
         var validateCodeImg =document.getElementById("validateCodeImg");
-        validateCodeImg.setAttribute('src', 'http://localhost:8080/user/get_img_code.' + Math.random())
+        validateCodeImg.setAttribute('src', '/user/get_img_code.' + Math.random())
     }
 
     function toRegister() {
-        window.location.href='http://localhost:8080/user/to_register';
+        window.location.href='/user/to_register';
     }
 </script>
 </html>

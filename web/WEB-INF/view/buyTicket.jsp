@@ -17,6 +17,7 @@
 </div>
 <div>
     <h2 align="center">车票信息</h2>
+    <input id="ticketId"  type="hidden" value="${ticketId}">
     <table id="ticketDetail" align="center" border="1" cellspacing="1" cellpadding="1" width="750">
         <tr>
             <td align="center">编号</td>
@@ -25,9 +26,6 @@
             <td align="center">发车时间</td>
             <td align="center">价格</td>
             <td align="center">余票数</td>
-        </tr>
-        <tr>
-            <td id="ticketId">${ticketId}</td>
         </tr>
     </table>
     <h2 align="center">用户信息</h2>
@@ -58,7 +56,7 @@
 <script type="text/javascript">
     function toPayPage() {
         var userId = $("#userId").html();
-        var ticketId = $("#ticketId").html();
+        var ticketId = $("#ticketId").val();
         var ticketNum = $("#ticketNum").val();
         if (ticketNum==''){
             alert("购买数量为空");
@@ -73,7 +71,7 @@
             ticketId:ticketId,
             ticketNum:ticketNum
         };
-        var url = 'http://localhost:8080/ticket/lock_ticket';
+        var url = '/ticket/lock_ticket';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -82,7 +80,6 @@
             dataType: 'json',
 
             success: function (data) {
-                alert("成功获取数据");
                 var msg = data.msg;
                 var status = data.status;
                 var orderNum = data.data;
@@ -90,7 +87,7 @@
                     alert(msg+status);
                 }else {
                     //成功锁票，到支付页面
-                    window.location.href='http://localhost:8080/ticket/pay_ticket?orderNum=' + orderNum;
+                    window.location.href='/ticket/pay_page?orderNum=' + orderNum;
                 }
             },
             error: function (data) {
@@ -102,11 +99,11 @@
 
 
     function loadData() {
-        var ticketId = $("#ticketId").html();
+        var ticketId = $("#ticketId").val();
         var params = {
             ticketId:ticketId
         };
-        var url = 'http://localhost:8080/ticket/ticket_detail';
+        var url = '/ticket/ticket_detail';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',

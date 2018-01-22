@@ -27,7 +27,7 @@
         var params = {
             orderNum:orderNum
         };
-        var url = 'http://localhost:8080/ticket/pay_ticket';
+        var url = '/ticket/pay_ticket';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -36,14 +36,13 @@
             dataType: 'json',
 
             success: function (data) {
-                alert("成功获取数据");
                 var msg = data.msg;
                 var status = data.status;
                 if (status!=0){
                     alert(msg+status);
                 }else {
                     //完成购票，到车票列表
-                    window.location.href='http://localhost:8080/ticket/to_ticket';
+                    window.location.href='/ticket/to_ticket';
                 }
             },
             error: function (data) {

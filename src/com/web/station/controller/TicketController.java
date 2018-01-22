@@ -89,6 +89,11 @@ public class TicketController {
     }
 
 
+    /**
+     * 支付信息
+     * @param orderNum
+     * @return
+     */
     @RequestMapping("pay_ticket")
     @ResponseBody
     public ServerResponse payTicket(String orderNum){

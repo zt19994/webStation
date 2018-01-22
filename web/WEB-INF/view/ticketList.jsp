@@ -46,7 +46,7 @@
     function logout() {
         var params = {
         };
-        var url = 'http://localhost:8080/user/logout';
+        var url = '/user/logout';
         jQuery.ajax({
             type:'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -58,7 +58,7 @@
                 if (status!=0){
                     alert(status);
                 }else {
-                    window.location.href='http://localhost:8080/user/to_login';
+                    window.location.href='/user/to_login';
                 }
             },
             error: function(data){
@@ -121,7 +121,7 @@
             pageNum: pageNum,
             pageSize:pageSize
         };
-        var url = 'http://localhost:8080/ticket/list';
+        var url = '/ticket/list';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -186,7 +186,7 @@
     }
 
     function buyTicket(id) {
-        window.location.href='http://localhost:8080/ticket/buy_ticket?ticketId=' + id;
+        window.location.href='/ticket/buy_ticket?ticketId=' + id;
     }
 
     loadData(1, 5)

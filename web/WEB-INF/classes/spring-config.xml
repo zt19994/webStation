@@ -11,6 +11,13 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
+    <!--1.开启注解-->
+    <mvc:annotation-driven/>
+
+    <!--2.扫描包 service和controller-->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.web.station.controller, com.web.station.service"/>
+
 
     <!--3.配置连接池-->
     <context:property-placeholder location="classpath:db.properties"/>
@@ -49,6 +56,14 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.web.station.dao"/>
     </bean>
+
+    <!--6.前缀和后缀配置-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
 
 
     <import resource="classpath:spring/spring_cxfClient.xml"/>

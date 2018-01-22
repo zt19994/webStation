@@ -79,7 +79,7 @@
         var params = {
             phone: phone
         };
-        var url = 'http://localhost:8080/user/get_msg_code';
+        var url = '/user/get_msg_code';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -136,7 +136,7 @@
         };
         var mail = email.split("@")[1];
 
-        var url = 'http://localhost:8080/user/register';
+        var url = '/user/register';
         jQuery.ajax({
             type: 'POST',
             contentType: 'application/x-www-form-urlencoded',
@@ -149,7 +149,7 @@
                 if (status != 0) {
                     alert(msg + status);
                 } else {
-                    window.location.href='http://localhost:8080/user/to_activate?mail=' + mail;
+                    window.location.href='/user/to_activate?mail=' + mail;
                 }
 
             },
@@ -160,7 +160,7 @@
     }
 
     function toLogin() {
-        window.location.href = 'http://localhost:8080/user/to_login';
+        window.location.href = '/user/to_login';
     }
 </script>
 </html>

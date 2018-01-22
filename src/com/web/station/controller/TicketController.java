@@ -41,6 +41,19 @@ public class TicketController {
     }
 
     /**
+     * 跳转到支付页面
+     * @param orderNum
+     * @return
+     */
+    @RequestMapping("pay_page")
+    public ModelAndView toPayPage(String orderNum) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("payPage");
+        modelAndView.addObject("orderNum", orderNum);
+        return modelAndView;
+    }
+
+    /**
      * 获取车票列表数据
      *
      * @return
@@ -73,5 +86,12 @@ public class TicketController {
     @ResponseBody
     public ServerResponse lockTicket(String userId, String ticketId, String ticketNum){
         return ticketService.lockTicket(userId, ticketId, ticketNum);
+    }
+
+
+    @RequestMapping("pay_ticket")
+    @ResponseBody
+    public ServerResponse payTicket(String orderNum){
+        return ticketService.buyTicket(orderNum);
     }
 }

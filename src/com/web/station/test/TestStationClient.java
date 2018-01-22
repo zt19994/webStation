@@ -51,6 +51,13 @@ public class TestStationClient {
 
         System.out.println("执行完毕");
 
+        /*
+        {"code":"0000","data":"842d1bb7-c54d-4716-a02f-a42a498fcf2d","msg":"锁票成功","success":true}
+        842d1bb7-c54d-4716-a02f-a42a498fcf2d
+        {"ticketNum":"1","orderNum":"842d1bb7-c54d-4716-a02f-a42a498fcf2d","userId":"4","ticketId":"5"}
+        {"code":"0000","msg":"购票成功","success":true}
+        */
+
 
     }
 }

@@ -67,8 +67,6 @@
             alert("购买数量错误");
             return false;
         }
-        alert("成功");
-        return true;
         //进行锁票
         var params = {
             userId:userId,
@@ -85,7 +83,15 @@
 
             success: function (data) {
                 alert("成功获取数据");
-
+                var msg = data.msg;
+                var status = data.status;
+                var orderNum = data.data;
+                if (status!=0){
+                    alert(msg+status);
+                }else {
+                    //成功锁票，到支付页面
+                    window.location.href='http://localhost:8080/ticket/pay_ticket?orderNum=' + orderNum;
+                }
             },
             error: function (data) {
                 alert("失败啦");

@@ -28,4 +28,11 @@ public interface ITicketService {
      * @return
      */
     ServerResponse lockTicket(String userId, String ticketId, String ticketNum);
+
+    /**
+     * 买票
+     * @param orderNum
+     * @return
+     */
+    ServerResponse buyTicket(String orderNum);
 }

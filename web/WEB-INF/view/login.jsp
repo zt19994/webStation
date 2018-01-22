@@ -82,6 +82,7 @@
                 if (status!=0){
                     alert(msg+status);
                 }else {
+                    //到车票列表
                     window.location.href='http://localhost:8080/ticket/to_ticket';
                 }
             },

@@ -50,14 +50,8 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
         <property name="basePackage" value="com.web.station.dao"/>
     </bean>
 
-    <!--csf配置-->
-    <jaxws:server id="inlineImplementor" serviceClass="com.day_28.station.cxfservice.ITicketCXFService" address="/ticket">
-        <jaxws:serviceBean>
-            <bean class="com.day_28.station.cxfservice.ITicketCXFServiceService"/>
-        </jaxws:serviceBean>
-    </jaxws:server>
 
-    <!--导入cxf配置-->
     <import resource="classpath:spring/spring_cxfClient.xml"/>
+
 
 </beans>

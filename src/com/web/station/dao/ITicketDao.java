@@ -18,4 +18,11 @@ public interface ITicketDao {
      * @return
      */
     Ticket selectTicketById(Integer ticketId);
+
+    /**
+     * 更新车票信息
+     * @param ticket
+     * @return
+     */
+    int updateTicket(Ticket ticket);
 }

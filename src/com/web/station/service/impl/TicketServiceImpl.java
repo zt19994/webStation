@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.day_28.station.cxfservice.ITicketCXFService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.web.station.common.Config;
 import com.web.station.common.ServerResponse;
 import com.web.station.dao.ITicketDao;
 import com.web.station.dao.ITicketOrderDao;
 import com.web.station.entity.Ticket;
 import com.web.station.entity.TicketOrder;
+import com.web.station.mqService.ProducerService;
+import com.web.station.mqService.UpdateTicketLister;
 import com.web.station.service.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,10 @@ public class TicketServiceImpl implements ITicketService {
 
     @Autowired
     private ITicketOrderDao ticketOrderDao;
+
+    @Autowired
+    private ProducerService producerService;
+
 
     @Override
     public ServerResponse<PageInfo> getTicketList(int pageNum, int pageSize) {
@@ -115,8 +122,20 @@ public class TicketServiceImpl implements ITicketService {
         //1.将orderNum转化为json格式
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("orderNum",orderNum);
+        //设置业务编号
+        jsonObject.put("typeNo", Config.MQ_UPDATE_TICKET_STATE);
         String jsonString = jsonObject.toString();
 
+        producerService.sendMessage(jsonString,"updateTicketState");
+
+        return ServerResponse.createBySuccess("购票成功");
+    }
+
+    public  ServerResponse updateTicketState(String orderNum){
+        //1.将orderNum转化为json格式
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderNum",orderNum);
+        String jsonString = jsonObject.toString();
         //2.调用车站发布的买票接口
         String buyTicket = ticketCXFService.buyTicket(jsonString);
         JSONObject parseObject = JSON.parseObject(buyTicket);
@@ -135,6 +154,4 @@ public class TicketServiceImpl implements ITicketService {
         }
         return ServerResponse.createBySuccess("购票成功");
     }
-
-
 }

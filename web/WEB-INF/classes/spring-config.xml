@@ -16,10 +16,10 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
     <!--2.扫描包 service和controller-->
     <context:annotation-config/>
-    <context:component-scan base-package="com.web.station.controller, com.web.station.service"/>
+    <context:component-scan base-package="com.web.station.service, com.web.station.controller"/>
 
 
-    <!--3.配置连接池-->
+    <!--2.配置连接池-->
     <context:property-placeholder location="classpath:db.properties"/>
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${mysql.driver}"/>
@@ -28,7 +28,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
         <property name="password" value="${mysql.password}"/>
     </bean>
     
-    <!--4.配置SqlSessionFactory-->
+    <!--3.配置SqlSessionFactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--a.和数据库关联-->
         <property name="dataSource" ref="dataSource"/>
@@ -49,21 +49,20 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
                 </bean>
             </array>
         </property>
-
     </bean>
     
-    <!--5.扫描dao(mapper)接口文件-->
+    <!--4.扫描dao(mapper)接口文件-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.web.station.dao"/>
     </bean>
 
-    <!--6.前缀和后缀配置-->
+    <!--5.前缀和后缀配置-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!--引入cxf配置文件-->
     <import resource="classpath:spring/spring_cxfClient.xml"/>
-
 </beans>

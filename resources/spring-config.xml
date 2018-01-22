@@ -11,10 +11,12 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
+    <!--1.开启注解-->
+    <mvc:annotation-driven/>
 
-    <!--1.扫描包 service和controller-->
+    <!--2.扫描包 service和controller-->
     <context:annotation-config/>
-    <context:component-scan base-package="com.web.station.service"/>
+    <context:component-scan base-package="com.web.station.service, com.web.station.controller"/>
 
 
     <!--2.配置连接池-->
@@ -52,6 +54,13 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
     <!--4.扫描dao(mapper)接口文件-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.web.station.dao"/>
+    </bean>
+
+    <!--5.前缀和后缀配置-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <!--引入cxf配置文件-->

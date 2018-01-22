@@ -44,4 +44,9 @@ public class Config {
      * 邮箱主体
      */
     public static final String BASE_BODY = "http://127.0.0.1:8080/user/activate?validateCode=";
+
+    /**
+     * MQ业务编号配置
+     */
+    public static final String MQ_UPDATE_TICKET_STATE = "updateTicketState";
 }

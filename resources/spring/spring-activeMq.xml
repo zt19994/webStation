@@ -43,17 +43,19 @@
         <property name="pubSubDomain" value="false" />
     </bean>
 
-    <!--监听器-->
+    <!--监听器类-->
     <bean id="updateTicketLister" class="com.web.station.mqService.UpdateTicketLister">
-        
-    </bean>
-    
-    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="messageListener" ref="updateTicketLister"/>
-        <property name="destinationName" value="updateTicketState"/>
     </bean>
 
+    <!--监听器配置-->
+    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <!--关联连接工厂-->
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--关联监听类-->
+        <property name="messageListener" ref="updateTicketLister"/>
+        <!--指定mq队列名-->
+        <property name="destinationName" value="updateTicketState"/>
+    </bean>
 
 </beans>
 

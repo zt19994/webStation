@@ -43,7 +43,7 @@
             <td align="center">${currentUser.phone}</td>
             <td align="center">${currentUser.email}</td>
             <td align="center">
-                <input id="ticketNum" type="text" value="1">
+                <input id="ticketNum" type="text" value="1"> 最多购买5张
             </td>
         </tr>
     </table>
@@ -63,6 +63,9 @@
             return false;
         }else if (ticketNum<1){
             alert("购买数量错误");
+            return false;
+        } else if (ticketNum>5){
+            alert("最多购买5张车票");
             return false;
         }
         //进行锁票

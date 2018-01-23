@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.web.station.common.Config;
 import com.web.station.common.ServerResponse;
 import com.web.station.service.impl.TicketServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.JMSException;
@@ -13,6 +15,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 public class UpdateTicketLister implements MessageListener {
+    private static Logger logger = LoggerFactory.getLogger(UpdateTicketLister.class);
 
     @Autowired
     private TicketServiceImpl ticketService;
@@ -23,19 +26,18 @@ public class UpdateTicketLister implements MessageListener {
             TextMessage textMessage = (TextMessage) message;
             try {
                 String messageText = textMessage.getText();
-                System.out.println("接受队列消息，内容是：" + messageText);
+                logger.info("接受队列消息，内容是：" + messageText);
                 JSONObject jsonObject = JSON.parseObject(messageText);
                 String typeNo = jsonObject.getString("typeNo");
-                System.out.println("typeNo: " + typeNo);
+                logger.info("typeNo: " + typeNo);
                 String orderNum = jsonObject.getString("orderNum");
-                System.out.println("orderNum: " + orderNum);
+                logger.info("orderNum: " + orderNum);
 
                 if (Config.MQ_UPDATE_TICKET_STATE.equals(typeNo)){
                     //如果typeNo等于updateTicketState，执行更新车票状态
                     ServerResponse response = ticketService.updateTicketState(orderNum);
                     System.out.println(response);
                 }
-
             } catch (JMSException e) {
                 e.printStackTrace();
             }

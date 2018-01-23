@@ -12,8 +12,9 @@ import com.web.station.dao.ITicketOrderDao;
 import com.web.station.entity.Ticket;
 import com.web.station.entity.TicketOrder;
 import com.web.station.mqService.ProducerService;
-import com.web.station.mqService.UpdateTicketLister;
 import com.web.station.service.ITicketService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 public class TicketServiceImpl implements ITicketService {
+    private Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
 
     @Autowired
     private ITicketDao ticketDao;
@@ -59,6 +61,7 @@ public class TicketServiceImpl implements ITicketService {
     @Override
     public ServerResponse getTicketDetail(String ticketId) {
         Ticket ticket = ticketDao.selectTicketById(Integer.valueOf(ticketId));
+        logger.info("ticket: " + ticket);
         String departureTime = ticket.getDepartureTime();
         String substring = departureTime.substring(0, 19);
         ticket.setDepartureTime(substring);
@@ -74,6 +77,8 @@ public class TicketServiceImpl implements ITicketService {
         jsonObject.put("ticketNum",ticketNum);
         String jsonString = jsonObject.toJSONString();
 
+        logger.info("jsonString: " + jsonString);
+
         //2.调用车站发布的锁票接口
         String lockTicket = ticketCXFService.lockTicket(jsonString);
         JSONObject parseObject = JSON.parseObject(lockTicket);
@@ -83,6 +88,8 @@ public class TicketServiceImpl implements ITicketService {
             return ServerResponse.createByErrorMessage("购票失败，余票不足");
         }
         String orderNum = parseObject.getString("data");
+
+        logger.info("orderNum: " + orderNum);
 
         //3.锁定自己的车票
         //a.通过ticketId查询车票信息
@@ -126,6 +133,9 @@ public class TicketServiceImpl implements ITicketService {
         jsonObject.put("typeNo", Config.MQ_UPDATE_TICKET_STATE);
         String jsonString = jsonObject.toString();
 
+        logger.info("MQJsonString: " + jsonString);
+
+        //上传到mq队列
         producerService.sendMessage(jsonString,"updateTicketState");
 
         return ServerResponse.createBySuccess("购票成功");

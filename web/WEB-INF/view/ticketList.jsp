@@ -19,6 +19,7 @@
     <span>欢迎您,${currentUser.userName}</span>
     <button onclick="logout()">注销</button>
 </div>
+<br/>
 <div align="center">
     <table id="ticketList" align="center" border="1" cellspacing="1" cellpadding="1" width="750">
         <tr>

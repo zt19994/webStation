@@ -4,10 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.web.station.dao.ITicketDao">
-    <select id="getTicketList" resultType="Ticket">
+    <select id="getTicketList" resultType="Ticket" parameterType="com.web.station.Vo.TicketQueryVo">
         SELECT
         id, start_station startStation, stop_station stopStation, departure_time departureTime , price, ticket_num ticketNum
         FROM ticket
+        <where>
+            <if test="startStation!=null and startStation!=''">
+                AND start_station LIKE CONCAT('%',#{startStation},'%')
+            </if>
+            <if test="stopStation!='' and stopStation!=null ">
+                AND stop_station LIKE CONCAT('%',#{stopStation},'%')
+            </if>
+            <if test="minTime!=null and minTime!=''">
+                AND departure_time >=#{minTime}
+            </if>
+            <if test="maxTime!=null and maxTime!=''">
+                AND <![CDATA[departure_time<=#{maxTime}]]>
+            </if>
+        </where>
         ORDER BY id ASC
     </select>
 

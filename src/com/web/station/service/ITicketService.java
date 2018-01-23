@@ -1,17 +1,17 @@
 package com.web.station.service;
 
 import com.github.pagehelper.PageInfo;
+import com.web.station.Vo.TicketQueryVo;
 import com.web.station.common.ServerResponse;
 
 public interface ITicketService {
 
     /**
      * 返回车票列表，分页
-     * @param pageNum
-     * @param pageSize
+     * @param ticketQueryVo
      * @return
      */
-    ServerResponse<PageInfo> getTicketList(int pageNum, int pageSize);
+    ServerResponse<PageInfo> getTicketList(TicketQueryVo ticketQueryVo);
 
     /**
      * 通过ticketId获取车票详情

@@ -36,7 +36,7 @@ public class UpdateTicketLister implements MessageListener {
                 if (Config.MQ_UPDATE_TICKET_STATE.equals(typeNo)){
                     //如果typeNo等于updateTicketState，执行更新车票状态
                     ServerResponse response = ticketService.updateTicketState(orderNum);
-                    System.out.println(response);
+                    logger.info("MQ_response: " + JSON.toJSONString(response));
                 }
             } catch (JMSException e) {
                 e.printStackTrace();

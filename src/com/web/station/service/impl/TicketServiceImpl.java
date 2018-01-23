@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.day_28.station.cxfservice.ITicketCXFService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.web.station.Vo.TicketQueryVo;
 import com.web.station.common.Config;
 import com.web.station.common.ServerResponse;
 import com.web.station.dao.ITicketDao;
@@ -39,13 +40,16 @@ public class TicketServiceImpl implements ITicketService {
 
 
     @Override
-    public ServerResponse<PageInfo> getTicketList(int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> getTicketList(TicketQueryVo ticketQueryVo) {
+        logger.info("ticketQueryVo: " + ticketQueryVo);
         //pageHelper的使用方法，三步
+        Integer pageNum = ticketQueryVo.getPageNum();
+        Integer pageSize = ticketQueryVo.getPageSize();
         //1.startPage,记录一个开始
         PageHelper.startPage(pageNum, pageSize);
         //2.填充自己的sql查询逻辑
         List<Ticket> lists = new ArrayList<>();
-        List<Ticket> ticketList = ticketDao.getTicketList();
+        List<Ticket> ticketList = ticketDao.getTicketList(ticketQueryVo);
         for (Ticket ticket : ticketList) {
             String departureTime = ticket.getDepartureTime();
             String substring = departureTime.substring(0, 19);

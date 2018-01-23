@@ -1,5 +1,6 @@
 package com.web.station.test;
 
+import com.web.station.Vo.TicketQueryVo;
 import com.web.station.dao.ITicketDao;
 import com.web.station.entity.Ticket;
 import org.junit.Test;
@@ -23,7 +24,8 @@ public class TicketMapperTest {
     */
     @Test
     public void testGetTicketList(){
-        List<Ticket> ticketList = ticketDao.getTicketList();
+        TicketQueryVo ticketQueryVo = new TicketQueryVo();
+        List<Ticket> ticketList = ticketDao.getTicketList(ticketQueryVo);
         for (Ticket ticket : ticketList) {
             System.out.println(ticket);
         }

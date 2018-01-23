@@ -97,7 +97,8 @@ public class UserController {
     @ResponseBody
     public ServerResponse login(HttpSession session, String userName, String password, String validateCode){
         String code = (String) session.getAttribute(Const.LOGIN_VALIDATE_CODE);
-        if (!code.equals(validateCode)){
+        logger.info("validateCodeLogin: " +  validateCode);
+        if (!code.equals(validateCode.toUpperCase())){
             //验证码不相等
             return ServerResponse.createByErrorMessage("验证码错误");
         }

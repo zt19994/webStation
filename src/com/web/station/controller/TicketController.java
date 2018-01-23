@@ -1,5 +1,6 @@
 package com.web.station.controller;
 
+import com.web.station.Vo.TicketQueryVo;
 import com.web.station.common.Const;
 import com.web.station.common.ServerResponse;
 import com.web.station.entity.User;
@@ -65,13 +66,13 @@ public class TicketController {
      */
     @RequestMapping("list")
     @ResponseBody
-    public ServerResponse getTicketList(HttpSession session, int pageNum, int pageSize) {
+    public ServerResponse getTicketList(HttpSession session, TicketQueryVo ticketQueryVo) {
         //1.校验用户是否登录
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null){
             return ServerResponse.createByErrorMessage("未登录，请登录");
         }
-        return ticketService.getTicketList(pageNum, pageSize);
+        return ticketService.getTicketList(ticketQueryVo);
     }
 
     /**

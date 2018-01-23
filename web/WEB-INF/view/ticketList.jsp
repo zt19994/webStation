@@ -10,6 +10,7 @@
 <head>
     <title>车票列表</title>
     <script type="text/javascript" src="/static/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/my97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div>
@@ -21,6 +22,27 @@
 </div>
 <br/>
 <div align="center">
+    <table>
+        <tr>
+            <td>起 始 站:<input id="startStation" type="text" value=""> 到</td>
+            <td>终 点 站:<input id="stopStation" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td>
+                开始时间:<input id="minTime" type="text" />
+                <img onclick="WdatePicker({el:'minTime'})" src="/my97DatePicker/skin/datePicker.gif" width="20" height="22" align="absmiddle">
+            </td>
+            <td>
+                结束时间:<input id="maxTime" type="text"/>
+                <img onclick="WdatePicker({el:'maxTime'})" src="/my97DatePicker/skin/datePicker.gif" width="20" height="22" align="absmiddle">
+            </td>
+            <td>
+                <button onclick="loadData()">查询</button>
+            </td>
+        </tr>
+    </table>
+
+
     <table id="ticketList" align="center" border="1" cellspacing="1" cellpadding="1" width="750">
         <tr>
             <td align="center">编号</td>
@@ -118,7 +140,16 @@
     }
 
     function loadData(pageNum, pageSize) {
+        //获取搜索数据
+        var startStation = $("#startStation").val();
+        var stopStation = $("#stopStation").val();
+        var minTime = $("#minTime").val();
+        var maxTime = $("#maxTime").val();
         var params = {
+            startStation:startStation,
+            stopStation:stopStation,
+            minTime:minTime,
+            maxTime:maxTime,
             pageNum: pageNum,
             pageSize:pageSize
         };

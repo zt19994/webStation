@@ -66,6 +66,17 @@ public class UserController {
     }
 
     /**
+     * 跳转到设置页面
+     * @return
+     */
+    @RequestMapping("to_set")
+    public ModelAndView toSet(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("setPage");
+        return modelAndView;
+    }
+
+    /**
      * 注册
      * @param user
      * @return
@@ -98,6 +109,7 @@ public class UserController {
     public ServerResponse login(HttpSession session, String userName, String password, String validateCode){
         String code = (String) session.getAttribute(Const.LOGIN_VALIDATE_CODE);
         logger.info("validateCodeLogin: " +  validateCode);
+        //忽略验证码的大小写
         if (!code.equals(validateCode.toUpperCase())){
             //验证码不相等
             return ServerResponse.createByErrorMessage("验证码错误");

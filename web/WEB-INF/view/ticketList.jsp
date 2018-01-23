@@ -18,6 +18,7 @@
 </div>
 <div align="center">
     <span>欢迎您,${currentUser.userName}</span>
+    <button onclick="toSet()">设置</button>
     <button onclick="logout()">注销</button>
 </div>
 <br/>
@@ -66,6 +67,10 @@
 </div>
 </body>
 <script type="text/javascript">
+    function toSet() {
+        window.location.href='/user/to_set';
+    }
+
     function logout() {
         var params = {
         };

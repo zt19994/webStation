@@ -32,6 +32,24 @@
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
 
+    <!--404错误页面配置-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error_pages/404.jsp</location>
+    </error-page>
+
+    <!--500错误页面配置-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error_pages/500.jsp</location>
+    </error-page>
+
+    <!--error错误页面配置-->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error_pages/error.jsp</location>
+    </error-page>
+
 
     <!--配置中文字符格式，过滤器Filter-->
     <filter>

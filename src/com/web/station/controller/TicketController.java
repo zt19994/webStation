@@ -6,17 +6,31 @@ import com.web.station.common.ServerResponse;
 import com.web.station.entity.User;
 import com.web.station.service.ITicketService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/ticket/")
 public class TicketController {
+    private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @Autowired
     private ITicketService ticketService;
@@ -119,5 +133,13 @@ public class TicketController {
             return ServerResponse.createByErrorMessage("未登录，请登录");
         }
         return ticketService.buyTicket(orderNum);
+    }
+
+    @RequestMapping("to_export.xls")
+    @ResponseBody
+    public String toExport(HttpServletResponse response, String pFileName) throws UnsupportedEncodingException {
+
+        ServerResponse serverResponse = ticketService.downloadFile(response);
+        return serverResponse.getMsg();
     }
 }

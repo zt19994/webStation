@@ -14,17 +14,20 @@ import com.web.station.entity.Ticket;
 import com.web.station.entity.TicketOrder;
 import com.web.station.mqService.ProducerService;
 import com.web.station.service.ITicketService;
+import com.web.station.util.DownloadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class TicketServiceImpl implements ITicketService {
-    private Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
 
     @Autowired
     private ITicketDao ticketDao;
@@ -145,6 +148,12 @@ public class TicketServiceImpl implements ITicketService {
         return ServerResponse.createBySuccess("购票成功");
     }
 
+
+    /**
+     * 更新车票状态
+     * @param orderNum
+     * @return
+     */
     public  ServerResponse updateTicketState(String orderNum){
         //1.将orderNum转化为json格式
         JSONObject jsonObject = new JSONObject();
@@ -167,5 +176,27 @@ public class TicketServiceImpl implements ITicketService {
             return ServerResponse.createByErrorMessage("购买失败");
         }
         return ServerResponse.createBySuccess("购票成功");
+    }
+
+    @Override
+    public ServerResponse downloadFile(HttpServletResponse response) {
+        //1.获取数据
+        List<Ticket> ticketList = ticketDao.getTicketList(null);
+
+        //2.将数据转化为string数组
+        List<List<String>> data = new ArrayList<>();
+        for (Ticket ticket : ticketList) {
+            String[] valueRow = null;
+            try {
+                valueRow = DownloadUtil.getValueRow(ticket);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            data.add(Arrays.asList(valueRow));
+        }
+
+        //3.下载
+        String fileName = DownloadUtil.download(response, data);
+        return ServerResponse.createBySuccess(fileName);
     }
 }

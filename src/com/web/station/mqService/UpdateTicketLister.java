@@ -1,6 +1,6 @@
 package com.web.station.mqService;
 
-import com.alibaba.fastjson.JSON;
+   import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.web.station.common.Config;
 import com.web.station.common.ServerResponse;
@@ -15,7 +15,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 public class UpdateTicketLister implements MessageListener {
-    private static Logger logger = LoggerFactory.getLogger(UpdateTicketLister.class);
+    private static final Logger logger = LoggerFactory.getLogger(UpdateTicketLister.class);
 
     @Autowired
     private TicketServiceImpl ticketService;

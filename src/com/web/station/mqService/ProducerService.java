@@ -14,7 +14,7 @@ import javax.jms.Session;
 
 @Service
 public class ProducerService {
-    private static Logger logger = LoggerFactory.getLogger(ProducerService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProducerService.class);
 
     @Autowired
     private JmsTemplate jmsTemplate;

@@ -12,7 +12,7 @@ import javax.jms.TextMessage;
 
 @Service
 public class ConsumerService {
-    private static Logger logger = LoggerFactory.getLogger(ConsumerService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerService.class);
 
     @Autowired
     private JmsTemplate jmsTemplate;

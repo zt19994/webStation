@@ -20,7 +20,7 @@ import java.security.GeneralSecurityException;
 
 @Service
 public class UserServiceImpl implements IUserService {
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private IUserDao userDao;

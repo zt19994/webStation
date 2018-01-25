@@ -30,15 +30,22 @@ public class MQTest {
         jsonObject.put("typeNo", Config.MQ_UPDATE_TICKET_STATE);
         String jsonString = jsonObject.toString();
         producerService.sendMessage(jsonString,"updateTicketState");
-       /* producerService.sendMessage("你好世界22222","stationQueues");
-        producerService.sendMessage("你好世界33333","stationQueues");
-        producerService.sendMessage("你好世界44444","stationQueues");*/
 
         System.out.println("------测试完成-------");
     }
+
+    @Test
+    public void testSend1(){
+        producerService.sendMessage("你好世界22222","stationQueues");
+        producerService.sendMessage("你好世界33333","stationQueues");
+        producerService.sendMessage("你好世界44444","stationQueues");
+
+        System.out.println("------测试完成-------");
+    }
+
     @Test
     public void testReceive() throws JMSException {
-        TextMessage stationQueues = consumerService.receive("updateTicketState");
+        TextMessage stationQueues = consumerService.receive("testMQ");
         String text = stationQueues.getText();
 
         System.out.println("------测试完成-------"+text);

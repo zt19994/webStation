@@ -16,7 +16,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
     <!--2.扫描包 service和controller-->
     <context:annotation-config/>
-    <context:component-scan base-package="com.web.station.service, com.web.station.controller"/>
+    <context:component-scan base-package="com.web.station.service, com.web.station.mqService, com.web.station.controller"/>
 
 
     <!--2.配置连接池-->
@@ -65,4 +65,6 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
     <!--引入cxf配置文件-->
     <import resource="classpath:spring/spring_cxfClient.xml"/>
+
+    <import resource="classpath:spring/spring-activeMq.xml"/>
 </beans>

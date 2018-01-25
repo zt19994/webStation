@@ -20,6 +20,7 @@
     <span>欢迎您,${currentUser.userName}</span>
     <button onclick="toSet()">设置</button>
     <button onclick="logout()">注销</button>
+    <button onclick="toExport()">导出</button>
 </div>
 <br/>
 <div align="center">
@@ -67,6 +68,11 @@
 </div>
 </body>
 <script type="text/javascript">
+    function toExport() {
+        alert("导出");
+        window.location.href='/ticket/to_export.xls';
+    }
+
     function toSet() {
         window.location.href='/user/to_set';
     }

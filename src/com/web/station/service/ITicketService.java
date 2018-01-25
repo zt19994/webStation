@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.web.station.Vo.TicketQueryVo;
 import com.web.station.common.ServerResponse;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface ITicketService {
 
     /**
@@ -35,4 +37,10 @@ public interface ITicketService {
      * @return
      */
     ServerResponse buyTicket(String orderNum);
+
+    /**
+     * 下载文件
+     * @param response
+     */
+    ServerResponse downloadFile(HttpServletResponse response);
 }

@@ -14,7 +14,6 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>
                 classpath:spring-config.xml
-                classpath:spring/spring-activeMq.xml
             </param-value>
         </init-param>
         <!--设置优先级最高级-->
